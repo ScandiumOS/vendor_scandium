@@ -1,0 +1,266 @@
+// Scandium soong configs
+
+bootstrap_go_package {
+    name: "soong-scandium-generator",
+    pkgPath: "scandium/soong/generator",
+    deps: [
+        "blueprint",
+        "blueprint-pathtools",
+        "soong",
+        "soong-android",
+        "soong-shared",
+    ],
+    srcs: [
+        "generator/generator.go",
+        "generator/variables.go",
+    ],
+    pluginFor: ["soong_build"],
+}
+
+scandium_generator {
+    name: "generated_kernel_includes",
+
+    // The headers make command
+    cmd: "$(PATH_OVERRIDE_SOONG) $(KERNEL_MAKE_CMD) $(KERNEL_MAKE_FLAGS) -C $(TARGET_KERNEL_HEADERS) O=$(KERNEL_BUILD_OUT_PREFIX)$(genDir) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) headers_install",
+
+    // Directories that can be imported by a cc_* module generated_headers property
+    export_include_dirs: [
+        "usr/audio/include/uapi",
+        "usr/include",
+        "usr/include/audio/include/uapi",
+        "usr/techpack/audio/include",
+    ],
+
+    // Sources for dependency tracking
+    dep_root: "$(TARGET_KERNEL_HEADERS)",
+    dep_files: [
+        "Makefile",
+        "include/**/*",
+        "arch/$(KERNEL_ARCH)/include/**/*",
+        "techpack/audio/include/**/*",
+    ],
+}
+
+cc_library_headers {
+    name: "generated_kernel_headers",
+    generated_headers: ["generated_kernel_includes"],
+    export_generated_headers: ["generated_kernel_includes"],
+    vendor_available: true,
+    recovery_available: true,
+}
+
+soong_config_module_type {
+    name: "gralloc_10_usage_bits",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumGlobalVars",
+    value_variables: ["additional_gralloc_10_usage_bits"],
+    properties: ["cppflags"],
+}
+
+gralloc_10_usage_bits {
+    name: "gralloc_10_usage_bits_defaults",
+    soong_config_variables: {
+        additional_gralloc_10_usage_bits: {
+            cppflags: ["-DADDNL_GRALLOC_10_USAGE_BITS=%s"],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "target_shim_libs",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumGlobalVars",
+    value_variables: ["target_ld_shim_libs"],
+    properties: ["cppflags"],
+}
+
+target_shim_libs {
+    name: "shim_libs_defaults",
+    soong_config_variables: {
+        target_ld_shim_libs: {
+            cppflags: ["-DLD_SHIM_LIBS=\"%s\""],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "vendor_init",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumGlobalVars",
+    value_variables: ["target_init_vendor_lib"],
+    properties: ["whole_static_libs"],
+}
+
+vendor_init {
+    name: "vendor_init_defaults",
+    soong_config_variables: {
+        target_init_vendor_lib: {
+            whole_static_libs: ["%s"],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "surfaceflinger_udfps_lib",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumGlobalVars",
+    value_variables: ["target_surfaceflinger_udfps_lib"],
+    properties: [
+        "cppflags",
+        "whole_static_libs",
+    ],
+}
+
+surfaceflinger_udfps_lib {
+    name: "surfaceflinger_udfps_lib_defaults",
+    soong_config_variables: {
+        target_surfaceflinger_udfps_lib: {
+            cppflags: ["-DTARGET_PROVIDES_UDFPS_LIB"],
+            whole_static_libs: ["%s"],
+        },
+    },
+}
+
+// NVIDIA specific config modules
+soong_config_module_type {
+    name: "nvidia_enhancements",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumNvidiaVars",
+    bool_variables: ["uses_nvidia_enhancements"],
+    properties: ["cppflags"],
+}
+
+nvidia_enhancements {
+    name: "nvidia_enhancements_defaults",
+    soong_config_variables: {
+        uses_nvidia_enhancements: {
+            cppflags: ["-DNV_ANDROID_FRAMEWORK_ENHANCEMENTS"],
+        },
+    },
+}
+
+// QCOM specific config modules
+soong_config_module_type {
+    name: "ipacm_no_mtu",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumQcomVars",
+    bool_variables: ["uses_no_mtu_ipacm"],
+    properties: ["cflags"],
+}
+
+ipacm_no_mtu {
+    name: "ipacm_no_mtu_defaults",
+    soong_config_variables: {
+        uses_no_mtu_ipacm: {
+            cflags: ["-DNO_MTU"],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "librmnetctl_pre_uplink",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumQcomVars",
+    bool_variables: ["uses_pre_uplink_features_netmgrd"],
+    properties: ["cflags"],
+}
+
+librmnetctl_pre_uplink {
+    name: "librmnetctl_pre_uplink_defaults",
+    soong_config_variables: {
+        uses_pre_uplink_features_netmgrd: {
+            cflags: ["-DNO_UPLINK_FEATURES"],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "needs_camera_boottime",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumGlobalVars",
+    bool_variables: ["needs_camera_boottime"],
+    properties: ["cppflags"],
+}
+
+needs_camera_boottime {
+    name: "needs_camera_boottime_defaults",
+    soong_config_variables: {
+        needs_camera_boottime: {
+            cppflags: ["-DTARGET_CAMERA_BOOTTIME_TIMESTAMP"],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "extended_compress_format",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumQcomVars",
+    bool_variables: ["supports_extended_compress_format"],
+    properties: ["cflags"],
+}
+
+extended_compress_format {
+    name: "extended_compress_format_defaults",
+    soong_config_variables: {
+        supports_extended_compress_format: {
+            cflags: ["-DENABLE_EXTENDED_COMPRESS_FORMAT"],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "surfaceflinger_qcom_extensions",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumQcomVars",
+    value_variables: ["qcom_display_headers_namespace"],
+    properties: [
+        "cppflags",
+        "header_libs",
+    ],
+}
+
+surfaceflinger_qcom_extensions {
+    name: "surfaceflinger_qcom_ext_defaults",
+    soong_config_variables: {
+        qcom_display_headers_namespace: {
+            cppflags: ["-DQCOM_UM_FAMILY"],
+            header_libs: ["//%s:display_intf_headers"],
+        },
+    },
+}
+
+soong_config_module_type {
+    name: "force_build_fingerprint",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumGlobalVars",
+    value_variables: ["force_build_fingerprint"],
+    properties: [
+        "cppflags"
+    ],
+}
+
+force_build_fingerprint {
+    name: "force_build_fingerprint_defaults",
+    soong_config_variables: {
+        force_build_fingerprint: {
+            cppflags: ["-DTARGET_FORCE_BUILD_FINGERPRINT=\"%s\""],
+          },
+    },
+}
+
+soong_config_module_type {
+    name: "inputdispatcher_skip_event_key",
+    module_type: "cc_defaults",
+    config_namespace: "scandiumGlobalVars",
+    value_variables: ["target_inputdispatcher_skip_event_key"],
+    properties: ["cppflags"],
+}
+
+inputdispatcher_skip_event_key {
+    name: "inputdispatcher_skip_event_key_defaults",
+    soong_config_variables: {
+        target_inputdispatcher_skip_event_key: {
+            cppflags: ["-DINPUTDISPATCHER_SKIP_EVENT_KEY=%s"],
+        },
+    },
+}
