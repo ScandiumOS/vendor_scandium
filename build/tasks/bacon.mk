@@ -27,8 +27,8 @@ endif
 INTERNAL_BACON_TARGET := $(PRODUCT_OUT)/$(NAD_VERSION).zip
 MD5 := prebuilts/build-tools/path/$(HOST_PREBUILT_TAG)/md5sum
 
-.PHONY: nad
-nad: $(INTERNAL_OTA_PACKAGE_TARGET)
+.PHONY: scandium
+scandium: $(INTERNAL_OTA_PACKAGE_TARGET)
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(INTERNAL_BACON_TARGET)
 	$(hide) $(MD5) $(INTERNAL_BACON_TARGET) | sed "s|$(PRODUCT_OUT)/||" > $(INTERNAL_BACON_TARGET).md5sum
 	$(hide) ./vendor/scandium/tools/generate_json_build_info.sh $(INTERNAL_BACON_TARGET)
