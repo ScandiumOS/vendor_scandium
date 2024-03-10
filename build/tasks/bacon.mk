@@ -24,7 +24,7 @@ ifneq ($(BUILD_WITH_COLORS),0)
     include $(TOP_DIR)vendor/scandium/build/core/colors.mk
 endif
 
-INTERNAL_BACON_TARGET := $(PRODUCT_OUT)/$(NAD_VERSION).zip
+INTERNAL_BACON_TARGET := $(PRODUCT_OUT)/$(SCANDIUM_VERSION).zip
 MD5 := prebuilts/build-tools/path/$(HOST_PREBUILT_TAG)/md5sum
 
 .PHONY: scandium
