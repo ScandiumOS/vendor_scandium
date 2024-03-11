@@ -18,9 +18,9 @@ then
     echo "  \"datetime\"       : $datetime," >> $file_path.json
     echo "  \"version\"        : \"$version\"," >> $file_path.json
     echo "  \"size\"           : $file_size," >> $file_path.json
-    echo "  \"url\"            : \"https://github.com/ScandiumOS"," >> $file_path.json
+    echo "  \"url\"            : \"https://github.com/ScandiumOS\"," >> $file_path.json
     echo "  \"filehash\"       : \"$md5\"," >> $file_path.json
-    echo "  \"website_url\"    : \"https://comingsoon\"," >> $file_path.json
+    echo "  \"website_url\"    : \"https://scandiumos.github.io\"," >> $file_path.json
     echo "  \"news_url\"       : \"https://t.me/ScandiumUpdates\"," >> $file_path.json
     echo "  \"donate_url\"     : \"https://www.paypal.me/username\"," >> $file_path.json
     echo "  \"maintainer\"     : \"\"," >> $file_path.json
