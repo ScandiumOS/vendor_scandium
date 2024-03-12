@@ -34,19 +34,21 @@ scandium: $(INTERNAL_OTA_PACKAGE_TARGET)
 	$(hide) ./vendor/scandium/tools/generate_json_build_info.sh $(INTERNAL_BACON_TARGET)
 	#@echo "Package Complete: $(INTERNAL_BACON_TARGET)" >&2
 
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e "\033[32m				                         		        	 \033[m"
-	@echo -e "\033[32m ███████  ██████  █████  ███    ██ ██████  ██ ██    ██ ███    ███  ██████  ███████ \033[m"
-	@echo -e "\033[32m ██      ██      ██   ██ ████   ██ ██   ██ ██ ██    ██ ████  ████ ██    ██ ██      \033[m"
-	@echo -e "\033[32m ███████ ██      ███████ ██ ██  ██ ██   ██ ██ ██    ██ ██ ████ ██ ██    ██ ███████ \033[m"
-	@echo -e "\033[32m      ██ ██      ██   ██ ██  ██ ██ ██   ██ ██ ██    ██ ██  ██  ██ ██    ██      ██ \033[m"
-	@echo -e "\033[32m ███████  ██████ ██   ██ ██   ████ ██████  ██  ██████  ██      ██  ██████  ███████ \033[m"
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_RST}"                    Build completed! Welcome to IndonesianROM!                    "${CL_RST}
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_CYN}"======================================================================================="${CL_CYN}
-	@echo -e ${CL_RST}" Package Complete: $(INTERNAL_BACON_TARGET)"${CL_RST}
-	@echo -e ${CL_RST}" Size            : `ls -lah $(INTERNAL_BACON_TARGET) | cut -d ' ' -f 5`"${CL_RST}
-	@echo -e ${CL_RST}" md5sum          : `cat $(INTERNAL_BACON_TARGET).md5sum | cut -d ' ' -f 1`"${CL_RST}
-	@echo -e ${CL_CYN}"======================================================================================="${CL_CYN}
+	@echo -e "\033[1;37m                                                                                    \033[m"
+	@echo -e "\033[1;37m                                                                                    \033[m"
+	@echo -e "\033[1;37m											\033[m"
+	@echo -e "\033[1;37m ███████╗ ██████╗ █████╗ ███╗   ██╗██████╗ ██╗██╗   ██╗███╗   ███╗ ██████╗ ███████╗ \033[m"
+	@echo -e "\033[1;37m ██╔════╝██╔════╝██╔══██╗████╗  ██║██╔══██╗██║██║   ██║████╗ ████║██╔═══██╗██╔════╝ \033[m"
+	@echo -e "\033[1;37m ███████╗██║     ███████║██╔██╗ ██║██║  ██║██║██║   ██║██╔████╔██║██║   ██║███████╗ \033[m"
+	@echo -e "\033[1;37m ╚════██║██║     ██╔══██║██║╚██╗██║██║  ██║██║██║   ██║██║╚██╔╝██║██║   ██║╚════██║ \033[m"
+	@echo -e "\033[1;37m ███████║╚██████╗██║  ██║██║ ╚████║██████╔╝██║╚██████╔╝██║ ╚═╝ ██║╚██████╔╝███████║ \033[m"
+	@echo -e "\033[1;37m ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚═╝ ╚═════╝ ╚═╝     ╚═╝ ╚═════╝ ╚══════╝ \033[m"
+	@echo -e "\033[1;37m                                                                    		\033[m"
+	@echo -e "\033[1;37m											\033[m"
+	@echo -e "\033[1;37m                Build completed! Welcome to Indonesian Custom ROM!                  \033[m"
+	@echo -e "\033[1;37m											\033[m"
+	@echo -e "\033[0;34m=======================================================================================\033[m"
+	@echo -e "\033[0m Package Complete: $(INTERNAL_BACON_TARGET)						\033[m"
+	@echo -e "\033[0m Size            : `ls -lah $(INTERNAL_BACON_TARGET) | cut -d ' ' -f 5`		\033[m"
+	@echo -e "\033[0m md5sum          : `cat $(INTERNAL_BACON_TARGET).md5sum | cut -d ' ' -f 1`		\033[m"
+	@echo -e "\033[0;34m=======================================================================================\033[m"
